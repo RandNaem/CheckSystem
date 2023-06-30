@@ -1,7 +1,7 @@
 from django import forms
-from .models import Checks
+from .models import Check, InOut
 
 class ChecksForm(forms.ModelForm):
     class Meta:
-        model = Checks
+        model = Check
         fields = ('qr_code',)

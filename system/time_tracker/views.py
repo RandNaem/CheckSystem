@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .forms import ChecksForm
-from .models import Checks
+from .models import Check, Employee
 from pyzbar.pyzbar import decode
 from PIL import Image
 import os
@@ -10,34 +10,55 @@ import numpy as np
 
 # Create your views here.
 def home(request):
+    last_check = Check.objects.last()  # Get the last check record
+    last_employee = Employee.objects.get(employee_id=last_check.employee_id)
+    context = {
+        'last_check': last_check,
+        'last_employee': last_employee,
+     }
     if request.method == 'POST':
         # I should change the camera to be a logitech camera => argument 1
         form = ChecksForm(request.POST)
         vid = cv2.VideoCapture(0)
         while True:
             success, img = vid.read()
-            # I should add a condition to allow only one barcode in  one session
-            # I should add authentication to verify if this QR code has permission to check
+            # I should add a condition to allow only one barcode in  one session: done
+            # I should add authentication to verify if this QR code has permission to check: done
             for barcode in decode(img):
-                myData = barcode.data.decode('utf-8')
-                print(myData)
-                # I should fix the time => it is 4 hours behind the actual time of our timezone
-                if form.is_valid():
-                    form.instance.employee_id = myData
-                    form.save()
                 pts = np.array([barcode.polygon], np.int32)
                 pts = pts.reshape((-1, 1, 2))
                 # argument: image, coordinators, close or not, color, thickness
                 cv2.polylines(img, [pts], True, (66, 245, 135), 5)
+                myData = barcode.data.decode('utf-8')
+                # print(myData)
+                try:
+                    employee = Employee.objects.get(employee_id=myData)
+                    # I should fix the time => it is 4 hours behind the actual time of our timezone
+                    check = Check(employee_id=myData)
+                    check.save()
+                    vid.release()
+                    cv2.destroyAllWindows()
+                    last_check = Check.objects.last()  # Get the last check record
+                    last_employee = Employee.objects.get(employee_id=last_check.employee_id)
+                    context = {
+                        'last_check': last_check,
+                        'last_employee': last_employee,
+                    }
+                    return render(request, 'time_tracker/success.html', context)
+                except:
+                    vid.release()
+                    cv2.destroyAllWindows()
+                    return render(request, 'time_tracker/failure.html', context)
             cv2.imshow('TimeTracker', img)
             key = cv2.waitKey(1)
             # Check if the 'Esc' key (key code 27) is pressed
             if key == 27:
                 break
-        vid.release()
-        cv2.destroyAllWindows()
-            # I should add the two commands to close all related windows and release resources
-    return render(request, 'time_tracker/home.html')
+        # I should add the two commands to close all related windows and release resources: done
+        # vid.release()
+        # cv2.destroyAllWindows()
+    return render(request, 'time_tracker/home.html', context)
+
 
 
     # if request.method == 'POST':
