@@ -11,10 +11,8 @@ import numpy as np
 # Create your views here.
 def home(request):
     last_check = Check.objects.last()  # Get the last check record
-    last_employee = Employee.objects.get(employee_id=last_check.employee_id)
     context = {
-        'last_check': last_check,
-        'last_employee': last_employee,
+        'last_check': last_check, 
      }
     if request.method == 'POST':
         # I should change the camera to be a logitech camera => argument 1
@@ -34,15 +32,13 @@ def home(request):
                 try:
                     employee = Employee.objects.get(employee_id=myData)
                     # I should fix the time => it is 4 hours behind the actual time of our timezone
-                    check = Check(employee_id=myData)
+                    check = Check(employee=employee)
                     check.save()
                     vid.release()
                     cv2.destroyAllWindows()
                     last_check = Check.objects.last()  # Get the last check record
-                    last_employee = Employee.objects.get(employee_id=last_check.employee_id)
                     context = {
                         'last_check': last_check,
-                        'last_employee': last_employee,
                     }
                     return render(request, 'time_tracker/success.html', context)
                 except:
