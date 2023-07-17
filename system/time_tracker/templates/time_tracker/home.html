@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <main>
     <h1>Time Tracker</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -16,8 +17,12 @@
       </form>
       <p id="chk-rec">
         {% if last_check %}
-        <p>Last check by <b>{{ last_check.employee.first_name }} {{ last_check.employee.last_name }}</b> on <b>{{ last_check.check_time }}</b></p>
+        <p>Last check by <b>{{ last_check.employee.employee_name }}</b> on <b>{{ last_check.check_time }}</b></p>
         {% endif %}
       </p>
+      <footer>
+        <p>&copy; 2023 Rand Naem. All rights reserved.</p>
+    </footer>
+    </main>
     </body>
 </html>

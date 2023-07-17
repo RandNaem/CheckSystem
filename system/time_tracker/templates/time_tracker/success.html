@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="{% static 'time_tracker/success.css' %}">
 </head>
 <body>
-    <h1>Thank you {{ last_check.employee.first_name }} {{ last_check.employee.last_name }} ! </h1>
-    <h1>You checked successfully</h1>
+    <main>
+        <h2>Thank you {{ last_check.employee.employee_name }} ! </h1>
+        <h2>You checked successfully</h1>
+        <h3>{{ last_check.check_time }}</h3>
+    </main>
+    <footer>
+        <p>&copy; 2023 Rand Naem. All rights reserved.</p>
+    </footer>
 </body>
 </html>

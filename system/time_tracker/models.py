@@ -14,15 +14,14 @@ class Employee(models.Model):
         ('Finance', 'Finance'),
         )
     employee_id = models.IntegerField(unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    employee_name = models.CharField(max_length=30)
     company = models.CharField(max_length=30, default='SolarEdge')
     position = models.CharField(max_length=30, default='QA_automation_engineer')
     employment_type = models.CharField(max_length=30, choices=employment_type_choices)
     staff = models.CharField(max_length=30, choices=staff_choices)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.employee_name}"
 
 class Check(models.Model):
     check_date = models.DateField(auto_now_add=True)

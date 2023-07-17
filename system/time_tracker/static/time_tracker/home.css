@@ -1,37 +1,62 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
+    position: relative;
+    min-height: 100vh;
     background-color: cadetblue;
     color: white;
     font-family: 'Poppins', sans-serif;
+}
+
+main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: calc(100vh - 50px);
     gap: 20px;
 }
-h1{
+
+h1 {
     font-size: 3rem;
 }
-#chk-btn{
+
+#chk-btn {
     font-size: 1.5em;
     padding: 10px;
     border: none;
     border-radius: 20px;
     transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 }
-#chk-btn:hover{
-    background-color:rgb(132, 221, 224);
+
+#chk-btn:hover {
+    background-color: rgb(132, 221, 224);
     color: white;
 }
-p{
-    color:maroon;
+
+p {
+    color: maroon;
     font-size: 1.25em;
 }
-pre{
+
+pre {
     color: white;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+}
+
+footer p {
+    color: white;
+    text-align: center;
 }
