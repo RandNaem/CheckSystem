@@ -6,7 +6,7 @@ from pyzbar.pyzbar import decode
 from PIL import Image
 import os
 import cv2
-import numpy as np
+# import numpy as np
 from django.http import StreamingHttpResponse
 
 # Create your views here.
@@ -23,10 +23,10 @@ def home(request):
             # I should add a condition to allow only one barcode in  one session: done
             # I should add authentication to verify if this QR code has permission to check: done
             for barcode in decode(img):
-                pts = np.array([barcode.polygon], np.int32)
-                pts = pts.reshape((-1, 1, 2))
-                # argument: image, coordinators, close or not, color, thickness
-                cv2.polylines(img, [pts], True, (66, 245, 135), 5)
+                # pts = np.array([barcode.polygon], np.int32)
+                # pts = pts.reshape((-1, 1, 2))
+                # # argument: image, coordinators, close or not, color, thickness
+                # cv2.polylines(img, [pts], True, (66, 245, 135), 5)
                 myData = barcode.data.decode('utf-8')
                 try:
                     employee = Employee.objects.get(employee_id=myData)

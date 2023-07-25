@@ -1,4 +1,0 @@
-install:
-1) opencv-python
-2) pandas
-3) jinja2
