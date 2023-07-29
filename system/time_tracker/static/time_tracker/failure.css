@@ -7,9 +7,14 @@
 body {
     position: relative;
     min-height: 100vh;
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
     color: white;
     font-family: 'Poppins', sans-serif;
+    background-image: url(../wave.png);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 main {
@@ -18,13 +23,14 @@ main {
     justify-content: center;
     align-items: center;
     height: calc(100vh - 50px);
-    gap: 20px;
+    padding-top: 7%;
 }
 h1{
     font-size: 2rem;
+    text-shadow: 1px 1px 2px black;
 }
 img{
-    width: 30%;
+    width: 25%;
 }
 footer {
     position: absolute;
@@ -37,5 +43,6 @@ footer {
 footer p {
     color: white;
     text-align: center;
-    font-size: 1.25em;
+    font-size: 1.4em;
+    text-shadow: 1px 1px 2px black;
 }

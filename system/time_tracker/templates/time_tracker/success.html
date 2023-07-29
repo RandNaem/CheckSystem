@@ -9,12 +9,16 @@
 </head>
 <body>
     <main>
-        <h2>Thank you {{ last_check.employee.employee_name }} ! </h1>
-        <h2>You checked successfully</h1>
-        <h3>{{ last_check.check_time }}</h3>
+        <h1>Thank you {{ last_check.employee.employee_name }} ! </h1>
+        <h2>You checked successfully on {{ last_check.check_time }}</h2>
     </main>
     <footer>
         <p>&copy; 2023 Rand Naem. All rights reserved.</p>
     </footer>
+    <script>
+        setTimeout(function() {
+            window.location.href = "{% url 'home' %}";
+        }, 5000); // 60000 milliseconds = 1 minute
+    </script>
 </body>
 </html>

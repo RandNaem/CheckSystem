@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Time Tracker</title>
     <link rel="stylesheet" href="{% static 'time_tracker/home.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
   <main>
     <h1>Time Tracker</h1>
-    <form method="post" enctype="multipart/form-data">
+    <div id="loader" class="loadingio-spinner-ripple-epn57kr9sl"><div class="ldio-o3nojpfmn9">
+      <div></div><div></div>
+      </div></div>    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <button id="chk-btn" type="submit">Check</button>
       </form>
@@ -24,5 +26,11 @@
         <p>&copy; 2023 Rand Naem. All rights reserved.</p>
     </footer>
     </main>
+    <script>
+      document.getElementById("chk-btn").onclick = function(){
+        document.getElementById("chk-btn").style.display = "none";
+        document.getElementById("loader").style.display = "block";
+      }
+    </script>
     </body>
 </html>

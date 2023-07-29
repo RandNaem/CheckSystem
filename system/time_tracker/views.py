@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import redirect, render
 from django.http import Http404, HttpResponse
 from .forms import ChecksForm
@@ -16,6 +17,7 @@ def home(request):
         'last_check': last_check, 
      }
     if request.method == 'POST':
+        time.sleep(3)
         form = ChecksForm(request.POST)
         vid = cv2.VideoCapture(0)
         while True:
@@ -58,24 +60,19 @@ def home(request):
     return render(request, 'time_tracker/home.html', context)
 
 def success(request):
-    if request.method == 'POST':
-        last_check = Check.objects.last()  # Get the last check record
-        context = {
-            'last_check': last_check,
-        }
-        return render(request, "time_tracker/success.html", context)
-    else:
-        raise Http404("Page not found")
+    last_check = Check.objects.last()  # Get the last check record
+    context = {
+        'last_check': last_check,
+    }
+    return render(request, "time_tracker/success.html", context)
+
 
 def failure(request):
-    if request.method == 'POST':
-        last_check = Check.objects.last()  # Get the last check record
-        context = {
-            'last_check': last_check,
-        }
-        return render(request, "time_tracker/failure.html", context)
-    else:
-        raise Http404("Page not found")
+    last_check = Check.objects.last()  # Get the last check record
+    context = {
+        'last_check': last_check,
+    }
+    return render(request, "time_tracker/failure.html", context)
 
 # version2
 # camera = cv2.VideoCapture(0)
