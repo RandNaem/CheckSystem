@@ -5,15 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Failure</title>
+    <link type="image/png" sizes="96x96" rel="icon" href="../../static/icons8-time-96.png">
     <link rel="stylesheet" href="{% static 'time_tracker/failure.css' %}">
-</head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet"></head>
 <body>
+
+    <!-- main section -->
     <main>
-        <h1>Employee does not exist in the system</h1>
+
+        <!-- failure message -->
+        <h1>Employee is not recognized by the system</h1>
         <img src="{% static 'Oops.png' %}" alt="Oops">
+
     </main>
+
+    <!-- footer section -->
     <footer>
+
+        <!-- copyright -->
         <p>&copy; 2023 Rand Naem. All rights reserved.</p>
+
     </footer>
+
+    <script>
+
+        // automatic return to home page after 5 seconds
+        setTimeout(function() {
+            window.location.href = "{% url 'home' %}";
+        }, 5000); // 60000 milliseconds = 1 minute
+        
+    </script>
+
 </body>
 </html>

@@ -5,20 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Success</title>
+    <link type="image/png" sizes="96x96" rel="icon" href="../../static/icons8-time-96.png">
     <link rel="stylesheet" href="{% static 'time_tracker/success.css' %}">
-</head>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet"></head>
 <body>
+
+    <!-- main section -->
     <main>
+
+        <!-- success message with last check record -->
         <h1>Thank you {{ last_check.employee.employee_name }} ! </h1>
         <h2>You checked successfully on {{ last_check.check_time }}</h2>
+
     </main>
+
+    <!-- footer section -->
     <footer>
+
+        <!-- copyright -->
         <p>&copy; 2023 Rand Naem. All rights reserved.</p>
+
     </footer>
+
     <script>
+
+        // automatic return to home page after 5 seconds
         setTimeout(function() {
             window.location.href = "{% url 'home' %}";
         }, 5000); // 60000 milliseconds = 1 minute
+
     </script>
+
 </body>
 </html>

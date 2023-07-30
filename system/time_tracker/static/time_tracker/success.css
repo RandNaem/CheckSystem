@@ -3,11 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
-    position: relative;
-    min-height: 100vh;
-    /* background-color: cadetblue; */
     color: white;
     font-family: 'Poppins', sans-serif;
     background-image: url(../wave.png);
@@ -16,7 +12,6 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-
 main {
     display: flex;
     flex-direction: column;
@@ -28,7 +23,6 @@ main {
 }
 h1{
     font-size: 2rem;
-    text-shadow: 1px 1px 2px black;
 }
 footer {
     position: absolute;
@@ -37,7 +31,6 @@ footer {
     width: 100%;
     padding: 10px;
 }
-
 footer p {
     color: black;
     text-align: center;

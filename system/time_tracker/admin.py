@@ -76,9 +76,13 @@ class InOutAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         # Save the edited file  
         newf.to_excel(edited_file_path, index=False)
 
+class CheckAdmin(admin.ModelAdmin):
+    list_display = ('employee', 'check_date', 'check_time',)
 
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('employee_name', 'employee_id', 'company', 'position', 'staff', 'employment_type',)
 
-admin.site.register(Employee)
-admin.site.register(Check)
+admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(Check, CheckAdmin)
 admin.site.register(InOut, InOutAdmin)
 

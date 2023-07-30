@@ -5,32 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Time Tracker</title>
+    <link type="image/png" sizes="96x96" rel="icon" href="../../static/icons8-time-96.png">
     <link rel="stylesheet" href="{% static 'time_tracker/home.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <!-- main section -->
   <main>
+
+    <!-- App name -->
     <h1>Time Tracker</h1>
-    <div id="loader" class="loadingio-spinner-ripple-epn57kr9sl"><div class="ldio-o3nojpfmn9">
-      <div></div><div></div>
-      </div></div>    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <button id="chk-btn" type="submit">Check</button>
-      </form>
-      <p id="chk-rec">
-        {% if last_check %}
+
+    <!-- animated loader -->
+    <div id="loader" class="loadingio-spinner-ripple-epn57kr9sl"><div class="ldio-o3nojpfmn9"><div></div><div></div></div></div>    
+
+    <!-- check form -->
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <button id="chk-btn" type="submit">Check</button>
+    </form>
+
+    <!-- last check record -->
+    <p id="chk-rec">
+      {% if last_check %}
         <p>Last check by <b>{{ last_check.employee.employee_name }}</b> on <b>{{ last_check.check_time }}</b></p>
-        {% endif %}
-      </p>
-      <footer>
-        <p>&copy; 2023 Rand Naem. All rights reserved.</p>
-    </footer>
-    </main>
-    <script>
-      document.getElementById("chk-btn").onclick = function(){
-        document.getElementById("chk-btn").style.display = "none";
-        document.getElementById("loader").style.display = "block";
-      }
-    </script>
-    </body>
+      {% endif %}
+    </p>
+
+  </main>
+
+  <!-- footer section -->
+  <footer>
+
+    <!-- copyright -->
+      <p>&copy; 2023 Rand Naem. All rights reserved.</p>
+      
+  </footer>
+
+  <script>
+    document.getElementById("chk-btn").onclick = function(){
+      document.getElementById("chk-btn").style.display = "none";
+      document.getElementById("loader").style.display = "block";
+    }
+  </script>
+
+</body>
 </html>

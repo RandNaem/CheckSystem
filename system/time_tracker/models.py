@@ -24,6 +24,7 @@ class Employee(models.Model):
         return f"{self.employee_name}"
 
 class Check(models.Model):
+    # automatically sets the fields to the current date and time when an object is created
     check_date = models.DateField(auto_now_add=True)
     check_time = models.DateTimeField(auto_now_add=True)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
