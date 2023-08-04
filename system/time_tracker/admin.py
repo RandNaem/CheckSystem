@@ -10,6 +10,7 @@ import sqlite3
 # Register your models here.
 class InOutAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('employee', 'check_date', 'checkIn_time', 'checkOut_time',)
+    list_filter = ('employee', 'check_date',)
 
     def export_action(self, request, *args, **kwargs):
         try:
@@ -50,31 +51,47 @@ class InOutAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     
     def editfile(self, file_path):
         file = pd.read_excel(file_path)
-        conn = sqlite3.connect('C:/Users/randn/OneDrive/שולחן העבודה/CheckSystem/system/db.sqlite3')
+        conn = sqlite3.connect('C:/Users/randn/Desktop/Projects/CheckSystem/system/db.sqlite3')
         cursor = conn.cursor()
-        file['name'] = file['employee'].apply(lambda x: cursor.execute("SELECT employee_name FROM time_tracker_employee WHERE id=?", (x,)).fetchone()[0])
+        file['Name'] = file['employee'].apply(lambda x: cursor.execute("SELECT employee_name FROM time_tracker_employee WHERE id=?", (x,)).fetchone()[0])
+        file['ID'] = file['employee'].apply(lambda x: cursor.execute("SELECT employee_id FROM time_tracker_employee WHERE id=?", (x,)).fetchone()[0])
         cursor.close()
         conn.close()
+        file.drop(['id', 'employee'], axis=1, inplace=True)
         total_hours = []
+        extra_hours = []
+        shortage_hours = []
         for index, row in file.iterrows():
             start_time = datetime.strptime(row['checkIn_time'], '%Y-%m-%d %H:%M:%S')
             end_time = datetime.strptime(row['checkOut_time'], '%Y-%m-%d %H:%M:%S')
             duration = (end_time - start_time).total_seconds() / 3600
+            extra = max((duration - 9, 0))
+            shortage = min((duration - 9, 0))
             total_hours.append('{:02d}:{:02d}'.format(int(duration), int((duration * 60) % 60)))
-        file['total'] = total_hours
-        file['status'] = file['total'].apply(lambda hours: 'Completed' if (float(hours.split(':')[0]) + float(hours.split(':')[1])/60) > 2 else 'Incomplete')
+            extra_hours.append('{:02d}:{:02d}'.format(int(extra), int((extra * 60) % 60)))
+            shortage_hours.append('{:02d}:{:02d}'.format(int(shortage), int((shortage * 60) % 60)))
+        file['Total'] = total_hours
+        file['Status'] = file['Total'].apply(lambda hours: 'Complete' if (float(hours.split(':')[0]) + float(hours.split(':')[1])/60) >= 9 else 'Incomplete')
+        file['Overtime'] = extra_hours
+        file['Undertime'] = shortage_hours
+        # Define the new order of columns
+        new_column_order = ['ID', 'Name', 'check_date', 'checkIn_time', 'checkOut_time', 'Total', 'Overtime', 'Undertime', 'Status',]
+        # Reindex the DataFrame to change the column order
+        newf = file.reindex(columns=new_column_order)
         def formaty(r):
-            hours_num = r.loc['total']
+            hours_num = r.loc['Total']
             if (float(hours_num.split(':')[0]) + float(hours_num.split(':')[1])/60) >= 9:
-                color = '#CBFFA9'
+                color = '#ccffcc'
             else:
-                color = '#FF9B9B'
+                color = '#ffcccc'
             return ['background-color: {}'.format(color) for i in r]
-        newf = file.style.apply(formaty, axis=1)
+        styledf = newf.style.apply(formaty, axis=1)
+        # Get the current date in the format YYYY-MM-DD
+        current_date = datetime.now().strftime('%Y-%m-%d')
         # Define the edited file path
-        edited_file_path = os.path.splitext(file_path)[0] + '_final.xlsx'
+        edited_file_path = os.path.join(os.path.dirname(file_path), 'Monthly_Report_Final_' + current_date + '.xlsx')
         # Save the edited file  
-        newf.to_excel(edited_file_path, index=False)
+        styledf.to_excel(edited_file_path, index=False)
 
 class CheckAdmin(admin.ModelAdmin):
     list_display = ('employee', 'check_date', 'check_time',)

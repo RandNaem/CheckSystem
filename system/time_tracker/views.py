@@ -19,6 +19,8 @@ def home(request):
     if request.method == 'POST':
         form = ChecksForm(request.POST)
         vid = cv2.VideoCapture(0)
+        # for external camera 
+        # vid = cv2.VideoCapture(1, cv2.CAP_DSHOW)
         while True:
             success, img = vid.read()
             for barcode in decode(img):
